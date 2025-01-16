@@ -43,7 +43,7 @@ function compressStream(inputStream, format, quality, grayscale, res, originSize
         .toFormat(format, { quality })
         .on("data", (chunk) => {
           const buffer = Buffer.from(chunk); // Optional: Convert chunk to buffer
-          res.send(buffer);
+          res.write(buffer);
         })
         .on("info", (info) => {
           res.setHeader("X-Original-Size", originSize);
