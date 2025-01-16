@@ -51,9 +51,9 @@ function compressStream(inputStream, format, quality, grayscale, res, originSize
           res.setHeader("X-Processed-Size", processedSize);
           res.setHeader("X-Bytes-Saved", originSize - processedSize);
         })
-        .on("end", () => {
+        /*.on("end", () => {
           res.end(); // Finalize the response
-        })
+        })*/
         .on("error", (err) => {
           console.error("Error during compression:", err.message);
           res.status(500).send("Error processing image.");
