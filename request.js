@@ -16,9 +16,11 @@ function shouldCompress(originType, originSize, isWebp) {
 }
 
 // Function to compress an image stream directly
-
+sharp.cache(false);
+sharp.simd(true);
+sharp.concurrency(1);
 function compressStream(inputStream, format, quality, grayscale, res, originSize) {
-  const sharpInstance = sharp({ unlimited: true, animated: false });
+  const sharpInstance = sharp({ unlimited: false, animated: false });
 
   inputStream.pipe(sharpInstance);
 
