@@ -42,16 +42,13 @@ function compressStream(inputStream, format, quality, grayscale, res, originSize
       sharpInstance
         .toFormat(format, { quality })
         .on("data", (chunk) => {
-          processedSize += chunk.length;
-          res.write(chunk); // Write each chunk to the response
+          const buffer = Buffer.from(chunk); // Optional: Convert chunk to buffer
+          res.send(buffer);
         })
         .on("info", (info) => {
           res.setHeader("X-Original-Size", originSize);
           res.setHeader("X-Processed-Size", processedSize);
           res.setHeader("X-Bytes-Saved", originSize - processedSize);
-        })
-        .on("end", () => {
-          res.end(); // Ensure the response ends after all chunks are sent
         })
         .on("error", (err) => {
           console.error("Error during compression:", err.message);
