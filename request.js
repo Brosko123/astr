@@ -1,7 +1,7 @@
 import https from 'https';
 import sharp from 'sharp';
 
-// Constantsuu
+// Constantsu
 const DEFAULT_QUALITY = 80;
 const MAX_HEIGHT = 16383; // Resize if height exceeds this value
 
