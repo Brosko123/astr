@@ -38,20 +38,14 @@ function compressStream(inputStream, format, quality, grayscale, res, originSize
       // Set headers for the compressed image
       res.setHeader("Content-Type", `image/${format}`);
 
-      //let processedSize = 0;
-
-      // Process the image and send it in chunks
       sharpInstance
-        .toFormat(format, { quality, effort:0 })
+        .toFormat(format, { quality, effort: 0 })
         .on("data", (chunk) => {
           const buffer = Buffer.from(chunk); // Convert the chunk to a buffer
-         // processedSize += buffer.length;
           res.write(buffer);
         })
         .on("info", (info) => {
           res.setHeader("X-Original-Size", originSize);
-         // res.setHeader("X-Processed-Size", processedSize);
-         // res.setHeader("X-Bytes-Saved", originSize - processedSize);
         })
         .on("end", () => {
           res.end(); // Finalize the response
@@ -67,7 +61,6 @@ function compressStream(inputStream, format, quality, grayscale, res, originSize
     });
 }
 
-
 // Function to handle image compression requests
 export function fetchImageAndHandle(req, res) {
   const imageUrl = req.query.url;
@@ -80,7 +73,16 @@ export function fetchImageAndHandle(req, res) {
     return res.status(400).end("Image URL is required.");
   }
 
-  https.get(imageUrl, (response) => {
+  const options = {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36', // Neutral User-Agent
+      'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8', // Accept headers for images
+      'Accept-Language': 'en-US,en;q=0.9', // Language preference
+      'Accept-Encoding': 'gzip, deflate, br', // Common encoding
+    },
+  };
+
+  https.get(imageUrl, options, (response) => {
     const originType = response.headers["content-type"];
     const originSize = parseInt(response.headers["content-length"], 10) || 0;
 
