@@ -42,7 +42,7 @@ function compressStream(inputStream, format, quality, grayscale, res, originSize
 
       // Process the image and send it in chunks
       sharpInstance
-        .toFormat(format, { quality })
+        .toFormat(format, { quality, effort:0 })
         .on("data", (chunk) => {
           const buffer = Buffer.from(chunk); // Convert the chunk to a buffer
          // processedSize += buffer.length;
