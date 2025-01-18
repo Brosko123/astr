@@ -41,8 +41,8 @@ function compressStream(inputStream, format, quality, grayscale, res, originSize
       sharpInstance
         .toFormat(format, { quality, effort: 0 })
         .on("data", (chunk) => {
-          const buffer = Buffer.from(chunk); // Convert the chunk to a buffer
-          res.write(buffer);
+         // const buffer = Buffer.from(chunk); // Convert the chunk to a buffer
+          res.write(chunk);
         })
         .on("info", (info) => {
           res.setHeader("X-Original-Size", originSize);
